@@ -110,8 +110,62 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-
-  /user/transaction:
+  /user/profile/{dateStart}&{dateEnd}:
+    get:
+      tags:
+      - User Module
+      summary: Account's transactions of the month
+      description: API for fetching a user Account
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        type: string
+        name: Authorization
+        description: Attach Bearer JWT
+        required: true
+        schema:
+            $ref: '#/definitions/Account'
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          schema:
+            $ref: '#/definitions/AccountResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/profile/{accountId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transaction API
+      description: API for a user transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Show a transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/UserTransaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/profile/{accountId}/{transationId}:
     put:
       security:
         - Bearer: []
@@ -126,7 +180,36 @@ paths:
           required: true
         - in: body
           name: body
-          description: Update, delete or edite a transaction attributes
+          description: Update or edite a transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/UserTransaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transaction API
+      description: API for delete a user transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Delete a transaction attributes
           required: true
           schema:
             $ref: '#/definitions/UserTransaction'
